@@ -1,0 +1,495 @@
+<?php $version = 7; ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="<?php echo $ENCODING; ?>" />
+  <base href="<?php echo $SCHEME.'://'.$HOST.$BASE.'/ui/'; ?>" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>ADMIN - Smith Connen &amp; Garcia &#8211; Smith Connen &amp; Garcia</title>
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://npmcdn.com/react-bootstrap-table/dist/react-bootstrap-table-all.min.css">
+</link>
+
+<link rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css">
+
+
+
+
+<style type="text/css">
+ .fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.table td{
+  padding:5px;
+}
+.table .btn-danger{
+  padding:3px;
+}
+
+
+
+/* CSS used here will be applied after bootstrap.css */
+.glyphicon-bell {
+   
+    font-size:1.5rem;
+  }
+
+.notifications {
+   min-width:320px; 
+  }
+  
+  .notifications-wrapper {
+     overflow:auto;
+      max-height:250px;
+    }
+.menu-title {
+    color: #ffffff;
+    font-size: 13px;
+    display: inline-block;
+    font-weight: bold;
+}
+ 
+.glyphicon-circle-arrow-right {
+      margin-left:10px;     
+   }
+  
+   
+ .notification-heading, .notification-footer  {
+  padding:2px 10px;
+       }
+      
+        
+.dropdown-menu.divider {
+  margin:5px 0;          
+  }
+
+.item-title {
+    font-size: 1.3rem;
+    color: #000;
+    font-weight: bold;
+    margin: 5px 0px;
+}
+
+.notifications a.content {
+    text-decoration: none;
+    display: block;
+    color:#000;
+}
+.notification-item {
+    position: relative;
+    padding: 10px;
+    padding-left: 70px;
+    padding-bottom: 0px;
+}
+.notification-item img {
+    position: absolute;
+    top: 7px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 5px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+ul.dropdown-menu.notifications .notifications-wrapper a.content {
+    padding: 0px !important;
+    background: rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid #d1d1d1;
+    font-size:10px;
+}
+ul.dropdown-menu.notifications .notifications-wrapper a.content:hover {
+    color: #000;
+    background: rgba(0, 0, 0, 0.1);
+}
+.login-nav ul.nav.navbar-nav.navbar-right li a {
+    display: block;
+}
+.notification-heading {
+    background: #000;.notifications a.content {
+    text-decoration: none;
+    display: block;
+}
+    padding: 3px 10px;
+}
+ul.dropdown-menu.notifications {
+    padding: 0px;
+}
+.dropdown .glyphicon-bell {  
+    vertical-align: middle;
+}
+.dropdown{
+    list-style:none;
+}
+
+.react-bs-table{
+  overflow-x: scroll
+}
+
+</style>
+
+<script type="text/javascript">
+  var _GlobalData = {}; 
+   _GlobalData.language = <?=json_encode($language) ?>;
+   _GlobalData.businesstypeid = '<?=$_SESSION['businesstypeid'] ?>';
+</script>
+
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="/smithconnenandgarcia/admin"><img src="http://smithconnenandgarcia.com/wp-content/uploads/2017/08/SCG-logo-400.png"></a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+
+        <?php if($_SESSION['businesstypeid'] == 0){ ?> 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Admins">
+          <a class="nav-link" href="/smithconnenandgarcia/admin/admins">
+            <i class="fa fa-fw fa-users"></i>
+            <span class="nav-link-text">Admins</span>
+          </a>
+        </li>
+        <?php } ?>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
+          <a class="nav-link" href="/smithconnenandgarcia/admin/users">
+            <i class="fa fa-fw fa-users"></i>
+            <span class="nav-link-text">Users</span>
+          </a>
+        </li>
+
+        <?php if($_SESSION['businesstypeid'] == 0){ ?> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users Payments">
+          <a class="nav-link" href="/smithconnenandgarcia/admin/users/payments">
+            <i class="fa fa-fw fa-money"></i>
+            <span class="nav-link-text">Users Payments</span>
+          </a>
+        </li>
+
+     
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Buyers">
+          <a class="nav-link" href="/smithconnenandgarcia/admin/buyers">
+            <i class="fa fa-fw fa-users"></i>
+            <span class="nav-link-text">Buyers</span>
+          </a>
+        </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Buyers Payments">
+          <a class="nav-link" href="/smithconnenandgarcia/admin/buyers/payments">
+            <i class="fa fa-fw fa-money"></i>
+            <span class="nav-link-text">Buyers Payments</span>
+          </a>
+        </li>
+
+        
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Catalog">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseCatalog" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-list"></i>
+            <span class="nav-link-text">Catalog</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseCatalog">
+            <li>
+              <a href="/smithconnenandgarcia/admin/businesstypes">Business Types</a>
+            </li>
+            <li>
+              <a href="/smithconnenandgarcia/admin/documentstypes">Documents Types</a>
+            </li>
+
+            <li>
+              <a href="/smithconnenandgarcia/admin/supermarkets">Supermarkets</a>
+            </li>
+
+          </ul>
+        </li>
+
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Supermarkets">
+          <a class="nav-link" href="/smithconnenandgarcia/admin/supermarkets/workers">
+            <i class="fa fa-fw fa-archive"></i>
+            <span class="nav-link-text">Supermarkets Workers</span>
+          </a>
+        </li>
+
+      
+
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reports">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Reports</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="/smithconnenandgarcia/admin/reports/files">Documents Status Report</a>
+            </li>
+            <li>
+              <a href="/smithconnenandgarcia/admin/reports/payments">Payments Report</a>
+            </li>
+          </ul>
+        </li>
+
+
+        <?php } ?>
+        
+      <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="tables.html">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Tables</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Components</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="navbar.html">Navbar</a>
+            </li>
+            <li>
+              <a href="cards.html">Cards</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Example Pages</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="login.html">Login Page</a>
+            </li>
+            <li>
+              <a href="register.html">Registration Page</a>
+            </li>
+            <li>
+              <a href="forgot-password.html">Forgot Password Page</a>
+            </li>
+            <li>
+              <a href="blank.html">Blank Page</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">Menu Levels</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMulti">
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+              <ul class="sidenav-third-level collapse" id="collapseMulti2">
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">Link</span>
+          </a>
+        </li> -->
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+
+
+        <li class="nav-item dropdown mt-2 mr-5">  
+  <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="smithconnenandgarcia/admin">
+    <i class="fa fa-fw fa-bell"></i><span class="badge bg-danger"><?=$totalunread?></span>
+  </a>
+  
+  <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+    
+    <div class="notification-heading"><h4 class="menu-title">Notifications</h4><!--<h4 class="menu-title pull-right">View all<i class="fa fa-arrow-right"></i></h4> -->
+    </div> 
+   <div class="notifications-wrapper"> 
+   <?php foreach($notifications AS $key=>$notification) { ?> 
+     <a class="content <?php if($notification['isread']==0){ ?>bg-primary markasread<?php } ?>" userid="<?=$notification['userid']?>" notificationid="<?=$notification['notificationid']?>" href="/smithconnenandgarcia/admin/userfiles/<?=$notification['userid']?>"> 
+       <div class="notification-item">
+       <img src="/smithconnenandgarcia/ui/img/nyc-default-user.png">
+        <h4 class="item-title <?php if($notification['isread']==0){ ?>text-white<?php } ?>"><small><?=$notification['message']?>!</small></h4>
+        <p class="item-info"><?=$notification['created']?></p>
+      </div>  
+    </a>
+    <?php } ?>
+
+   </div> 
+  </ul>
+  </li
+
+      <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-building"></i> <?=$admin['businessname'] ?> 
+          </a>
+        </li>
+      <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-user"></i> <?=$admin['name'] ?> <?=$admin['lastname'] ?>
+          </a>
+        </li>
+>
+
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="content-wrapper">
+      <div class="container-fluid">
+
+
+        <?php echo $this->render(Base::instance()->get('content')); ?>
+
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © smithconnenandgarcia.com 2017</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="/smithconnenandgarcia/admin/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="js/sb-admin-datatables.min.js"></script>
+     <script src="vendor/chart.js/Chart.min.js"></script>
+      <script src="js/web.bundle.js?v=<?=$version ?>"></script>
+    
+<script type="text/javascript">
+  
+
+ $(document).ready(function(){
+
+  $('.markasread').click(function(e){
+
+   e.preventDefault();
+   var userid = $(this).attr('userid');
+   var notificationid = $(this).attr('notificationid');
+   var data = {userid:userid,isread:-1};
+    $.ajax({
+      url: '/smithconnenandgarcia/api/notificationsadmins/editbyuser',
+      dataType: "json",
+      method:'POST',
+      data:data,
+      success: function(JSONResponse) {
+
+        if (JSONResponse.result){
+          $(location).attr('href','/smithconnenandgarcia/admin/userfiles/'+userid);
+        }
+      }.bind(this),
+      error:function(error,data){
+       // alert('A communication error has occurred');
+      }
+    });
+
+});
+
+  });
+
+ 
+
+</script>
+
+
+
+    </div>
+  </body>
+
+  </html>

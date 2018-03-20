@@ -1,0 +1,173 @@
+
+<?php
+
+$lbLang = array(
+
+    
+    "GeneralInfo" => "General Info",
+    "UserInfo" => "User Info",
+    "PaymentInfo" => "Payment Info",
+    "TravelAgentInfo" => "Travel Agent Info",
+    "Edit" => "Edit",
+    
+    "CancelEditing" => "Cancel editing",
+    "Save" => "Save",
+    "IsRovia" => "Is Rovia?",
+    "ConfirmedWProvider" => "Confirmed w/ Provider",
+    "EditPCN" => "Edit Provider Confirmation Number",
+    
+    "ResendBEmail" => "Re-send Booking Email",
+    "RepName" => "Rep Name",
+    "RepID" => "Rep ID",
+    
+    "Status" => "Status",
+    "ReservationName_" => "Reservation Name",
+    "TourIdName" => "Tour Id and tour name",
+    "CancellationDate" => "Cancellation Date",
+    
+    "TOUR" => "TOUR",
+    "NumREbateCredits" => "# of Rebate Credits",
+    "FromThisBooking" => "from this Booking",
+    "NumCreditsUsed" => "# Credits Used",
+    "RebateAmount" => "Rebate Amount",
+    
+    "CancelReason" => "Cancel Reason",
+    "TourTime" => "Tour Time",
+    "MeetingPoint_" => "Meeting Point",
+    "Comments" => "Comments",
+    
+    "AgentContactType" => "Agent Contact Type",
+    "AgencyName" => "Agency Name",
+    "AgencyPhone" => "Agency Phone",
+    "AgencyAddress" => "Agency Address",
+    "AgencyCity" => "Agency City",
+    "AgencyState" => "Agency State/Province",
+    
+    "SearchBy" => "Search By:",
+    "UserId" => "User Id",
+    "FirstName" => "First Name",
+    "Search" => "Search",
+    "TourId" => "Tour Id",
+    "Areas" => "Areas",
+    
+    "SelectTA" => "Select Travel agent",
+    "PasswordOptional"=>"Password (optional)",
+    "ReEnterPassword" => "Re-Enter Password",
+    "Language" => "Language",
+    "AreaAtDestination" => "Area At Destination",
+    
+    "BookedThrough" => "Booked Through",
+    "OtherOperator" => "Other Operator",
+    "AssignRepCode" => "Assign RepCode",
+    "PhoneNumber" => "Phone Number",
+    "Searching" => "Searching...",
+    
+    "AgentNotFound" => "Agent Not Found:",
+    "Areas" => "Travel Agent Register",
+    "ClientRFA" => "Client Register For Agent:",
+    "ChangeTA" => "Change Travel agent",
+    "ClientLanguage" => "Client Language:",
+    
+    "ChildrenUnder18" => "Children/Teens (under 18):",
+    "AgeOffChildren" => "Age off Childrens:",
+    "AgentMessageToClient" => "Agent Message To Client",
+    
+    "GoToNewWindow" => "Go to the new window that has opened to register the agent.",
+    "WhenYouRegister" => "When you register the agent, return to this window.",
+    "Every15Seconds" => "Every 15 seconds will automatically checking if already registered agent.",
+    "WhenARegistered" => "When a registered agent, we will show the information of the agent in this window.",
+    
+    
+    "ProviderConfirmNum" => "Provider Confirm #",
+    "UProviderConfirmNum" => "Update Provider Confirm #",
+    "SendCE" => "Send Confirmation Email?",
+    "Select" => "Select",
+    "UserTravelDates" => "User Travel Dates",
+    
+    "EditUserInfo" => "Edit User Info",
+    "TravelAgentRegister" => "Travel Agent Register",
+    "ClientRC" => "Client Registration Confirm",
+    "UserRegister" => "User Register",
+    "ReferrerSelection" => "Referrer Selection",
+    
+    "HotelSelection" => "Hotel Selection",
+    "TourSelection" => "TourSelection",
+    "UserSelection" => "User Selection",
+    "CreateUserAccount"=>"Create User Account",
+     "GetDiscount"=>"Get Discount",
+    
+    //Transfers Bookings
+    "ArrivalTime"=>"Arrival Time",
+    "ArrivalAirline"=>"Arrival Airline",
+    "ArrivalFlightNum"=>"Arrival Flight#",
+    "DepartureTime"=>"Departure Time",
+    "DepartureAirline"=>"Departure Airline",
+    
+    "DepartureFlightNum"=>"Departure Flight#",
+    "FindByHotel"=>"Find By hotel",
+    "ZAInsteadHotel"=>"ZONE/AREA Instead Hotel",
+    "AdjustIfMA"=>"Adjust If Multiple Airports",
+    "ArrivalAirport"=>"Arrival Airport",
+    
+    "DepartureAirport"=>"Departure Airport",
+    "PleaseFindForTransfer"=>"Please find for a transfer",
+    "FindTransfer"=>"Find Transfer",
+    "ClearTransferInfo"=>"Clear Transfer Info",
+    "Childrens"=>"Childrens",
+    
+    "Prices"=>"Prices",
+    "ArrivalInstructions"=>"Arrival Instructions etc...(Client will receive this information)",
+    "DepartureInstructions"=>"Departure Instructions etc...(Client will receive this information)",
+    "SpecialRequest"=>"Special Request",
+    "Childrens"=>"Childrens",
+    
+     "SpeciaRequestC"=>"Special request confirmed",
+    "SendDepartureInfo"=>"Send Departure Info",
+    "BookingDate"=>"Booking Date",
+    "TransferType"=>"Transfer Type",
+    "TripType"=>"Trip Type",
+    
+     "ReceiptNum"=>"Receipt #",
+    "Status"=>"Status",
+    "ChildsNum"=>"Childs #",
+    "FreeChildren"=>"Free children",
+    "TripPrice"=>"Trip Price",
+    
+     "TotalBeforeDiscount"=>"Total Before Discount",
+    "ArrivalInfo"=>"Arrival Info",
+    "Date"=>"Date",
+    "Time"=>"Time",
+    "Airport"=>"Airport",
+    
+     "Airline"=>"Airline",
+    "FlightNum"=>"Flight #",
+    "DepartureInfo"=>"Departure Info",
+    "UpdateInstructions"=>"Update Instructions",
+    "ArrivalInstructions"=>"Arrival Instructions",
+    
+     "DepartureInstructions"=>"Departure Instructions",
+    "HOTEL"=>"HOTEL",
+    "ZONE"=>"ZONE",
+    "RatesArePer"=>"RATES ARE PER PERSON OR PER TRIP IN USD AS SHOWN FOR AIRPORT",
+    "Multiple"=>"MULTIPLE",
+    
+     "RoundTrip"=>"ROUND TRIP",
+    "ArriveOnly"=>"ARRIVE ONLY",
+    "DepartOnly"=>"DEPART ONLY",
+    "Max"=>"Max",
+    
+     "people"=>"people",
+    "Per"=>"Per",
+    "NotAvailable"=>"Not Available",
+    "PricesFor"=>"Prices for",
+    "NumAdults"=>"# Adults:",
+    
+    "NumChildren"=>"# Children",
+    "Total"=>"Total",
+    "All"=>"All:",
+    "Trip"=>"Trip",
+    "Free"=>"Free",
+
+
+    );
+?>
