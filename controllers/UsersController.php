@@ -12,6 +12,29 @@ class UsersController extends Controller{
   }
 }*/
 
+function usersbysupermarket(){
+
+
+ $users = new Users($this->db);
+ $adminid = $this->f3->get('SESSION.adminid');
+
+ if(!$adminid) {
+  $tojson = ['result'=>false, 'data'=>[]];
+  $this->json($tojson);
+}
+
+$supermarketsids = $this->f3->get('GET.query.supermarketsids');
+
+$usersbysupermarket = $users->bysupermarket($supermarketsids);
+
+
+$tojson = ['result'=>true, 'data'=>$usersbysupermarket];
+
+
+ $this->json($tojson);
+
+}
+
 
 function documentfillonline(){
  $this->getlanguage('home');

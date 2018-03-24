@@ -7,6 +7,47 @@ class Users extends DB\SQL\Mapper{
     }
 
 
+    public function bysupermarket($supermarketsids) {
+
+        if(!$options_['page']) $options_['page'] = 0;
+        if(!$options_['limit']) $options_['limit'] = 100000000000;
+
+        $offset = $options_['page'] * $options_['limit'];
+
+
+        $query = "SELECT count(*) AS Total FROM users  
+                   WHERE 1 ";
+        $TotalRecords = $this->db->exec($query)[0]['Total'];
+
+        $TotalPages = $TotalRecords >= $options_['limit']?$TotalRecords/$options_['limit']:1;
+
+         
+
+         if(count($supermarketsids) > 0) {
+            $supermarketsids_ = implode(',',$supermarketsids);
+            $supermarketsidscond = "AND supermarketid IN ({$supermarketsids_})";
+        }
+
+         $query = "SELECT users.* FROM users
+                   LEFT JOIN userssupermarkets ON users.id =  userssupermarkets.userid
+                   WHERE 1 {$supermarketsidscond}";
+
+        
+        $Records = $this->db->exec($query);
+
+        $paginate = [];
+        $paginate['subset'] = $Records;
+        $paginate['total'] = $TotalRecords;
+        $paginate['limit'] = $options_['limit'];
+        $paginate['count'] = $TotalPages;
+        $paginate['pos'] = $options_['page'];
+
+        return $paginate;
+
+    }
+
+
+
     public function all_($options_ = false) {
         if(!$options_['page']) $options_['page'] = 0;
         if(!$options_['limit']) $options_['limit'] = 10;
@@ -88,7 +129,7 @@ public function allBuyerUsers($queycond_,$id) {
 }
 
 public function allsupermarketusers($id){
-    $query = "SELECT users.id,users.name,users.lastname,users.username,users.companyname, users.id AS value, users.name AS label
+    $query = "SELECT users.*, users.id AS value, users.name AS label
     FROM userssupermarkets
     LEFT JOIN users ON users.id = userssupermarkets.userid
     WHERE supermarketid = {$id} ORDER BY users.companyname ASC";

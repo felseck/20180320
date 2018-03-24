@@ -26,6 +26,10 @@ export default React.createClass({
 },
 
 aprovedFile:function(index){
+
+
+ if(_GlobalData.supermarketid) return;
+
  if(global.userid && !buyerid){
   var businessfile = this.state.businessfiles[index];
   if(!businessfile.expiredate || businessfile.expiredate == ''){
@@ -40,6 +44,9 @@ aprovedFile:function(index){
 },
 
 rejectedFile:function(index){ 
+
+   if(_GlobalData.supermarketid) return;
+
  if(global.userid && !buyerid){
 
   var businessfile = this.state.businessfiles[index];
@@ -57,6 +64,8 @@ rejectedFile:function(index){
 
 
 aprovedFileModal:function(index){
+   if(_GlobalData.supermarketid) return;
+
  if(global.userid && !buyerid){
   var businessfile = this.state.businessfiles[index];
   
@@ -75,6 +84,9 @@ aprovedFileModal:function(index){
 },
 
 rejectedFileModal:function(index){ 
+
+   if(_GlobalData.supermarketid) return;
+
  if(global.userid && !buyerid){
 
 
@@ -94,6 +106,9 @@ rejectedFileModal:function(index){
 },
 
 onChangeRejectedReason:function(index,this_){
+
+   if(_GlobalData.supermarketid) return;
+
  if(global.userid && !buyerid){
   this.state.businessfiles[index].rejectedreason = this_.target.value;
   this.forceUpdate();
@@ -101,6 +116,9 @@ onChangeRejectedReason:function(index,this_){
 },
 
 onChangeValidUntil:function(index,this_){
+
+   if(_GlobalData.supermarketid) return;
+   
  if(global.userid && !buyerid){
   this.state.businessfiles[index].expiredate = this_.target.value;
   this.forceUpdate();
@@ -164,7 +182,7 @@ render() {
 
    
 
-   if(buyerid){
+   if(buyerid || _GlobalData.supermarketid){
       aproveddisabled = true;
       rejecteddisabled = true;
     }

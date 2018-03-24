@@ -55,9 +55,12 @@ render((
 
   <Route path="/admin/supermarkets" component={supermarkets} />
   <Route path="/admin/supermarkets/:workers" component={supermarkets} />
-   <Route path="/supermarkets" component={supermarketusers} />
-  <Route path="/supermarkets/supliers" component={supermarketusers} />
-
+   <Route path="/supermarkets" component={users} />
+  <Route path="/supermarkets/supliers" component={users} />
+  
+  <Route path="/supermarkets/userfiles/:id" component={userfiles} />
+  <Route path="/supermarkets/reports/:reporttype" component={users} />
+  
    <Route path="/free/fillonline/:documenttype" component={userfiles} />
 
   </Router>

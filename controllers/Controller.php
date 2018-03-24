@@ -56,7 +56,7 @@ class Controller {
     'documentsvendorsapplications',
     'documentsw9forms',
     'users',
-    'supermarkets'
+    'supermarkets',
     ];
 
     if(isset($this->controller) && in_array($this->controller,$enablecontrollers)) $this->model = new $modelname($this->db, $this->table);

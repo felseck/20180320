@@ -2,6 +2,35 @@
 
 class supermarkets extends Controller{
 
+
+function layout_(){
+
+
+   //if(!$this->f3->get('COOKIE.session')) $this->logout(false);
+
+ if(!$this->f3->get('SESSION.supermarketid')) {
+  $this->f3->reroute('/supermarkets/login');
+  exit;
+}
+
+
+$this->getlanguage('home');
+$this->supermarketprofile();
+$this->f3->set('content','supermarkets/content.html');
+echo View::instance()->render('supermarkets/layout.html');
+}
+
+function userfiles(){
+  $this->f3->set('userid',$this->f3->get('GET.id')?$this->f3->get('GET.id'):null);
+  $this->layout_();
+}
+
+
+	function general(){
+ $this->layout_();
+}
+
+
 	function savesupermarket(){
 	   if($this->f3->get('POST.normalpwd')){
        $hashpassoword = password_hash($this->f3->get('POST.normalpwd'), PASSWORD_DEFAULT);

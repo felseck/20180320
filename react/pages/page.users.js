@@ -26,7 +26,11 @@ export default React.createClass({
 	},
 
 	componentDidMount(){
-		this.getUsers();
+
+		var method = null;
+		if(_GlobalData.supermarketid) method = 'supermarketusers';
+
+		this.getUsers(method);
 		this.getBusinessTypes();
 		this.getDocumentsTypes();
 
@@ -66,7 +70,7 @@ export default React.createClass({
 		return (
 			<span>
 			{cell}  
-			<Link  to={'admin/userfiles/'+row.id} >
+			<Link  to={_GlobalData.supermarketid?'supermarkets/userfiles/'+row.id:'admin/userfiles/'+row.id} >
 			<i className="fa fa-eye mr-1 ml-2" aria-hidden="true"></i> See files
 			</Link>
 			</span>
@@ -74,6 +78,8 @@ export default React.createClass({
 		},
 
 		disapproveuser:function(row){
+
+			if(_GlobalData.supermarketid) return;
 
       	if(!confirm('Are you sure you want to DISAPPROVE this user?')) return;
 
@@ -90,6 +96,8 @@ export default React.createClass({
       },
 
       approveuser:function(row){
+
+      	if(_GlobalData.supermarketid) return;
 
       	if(!confirm('Are you sure you want to approve this user?')) return;
 
@@ -128,6 +136,8 @@ export default React.createClass({
 		deleteUserFormat:function(cell, row, enumObject, index) {
 			row.index = index;
 
+			if(_GlobalData.supermarketid) return null;
+
 			return (
 
 			<button className="btn btn-danger" onClick={this.deleteUser.bind(this,row)}>
@@ -139,6 +149,7 @@ export default React.createClass({
 
 		selectsupermarkets:function(this_){
 
+
 		
 			var usersupermarkets = [];
 			this_.map(function(usersupermarket,index){
@@ -147,7 +158,26 @@ export default React.createClass({
 
 			}.bind(this));
 
-			this.setState({usersupermarkets:usersupermarkets});
+			this.setState({usersupermarkets:usersupermarkets},function(){
+
+				
+              this.getusersbysupermarket();
+
+			}.bind(this));
+
+		},
+
+		getusersbysupermarket:function(){
+
+			if(this.props.params.reporttype == 'files'){
+
+             this.gets({
+             	controller:'users',
+             	method:'usersbysupermarket',
+             	query:{supermarketsids:this.state.usersupermarkets}
+             })
+				
+			}
 
 		},
 
@@ -331,6 +361,8 @@ this.refs.supplierapproved.cleanFiltered();
 				onAddRow: this.onAddRow
 			};
 
+			if(_GlobalData.supermarketid) delete options.onRowClick;
+
 			var insertRow = true;
 
 			console.log('_GlobalData.businesstypeid');
@@ -415,6 +447,14 @@ Supplier status
 
  </label>:''}
   
+
+{ReportType == 'files' && !_GlobalData.supermarketid?
+  <label className="btn btn-primary" style={{width:'300px'}}>
+Supermarkets
+	<Select placeholder='Supermarkets'  multi onChange={this.selectsupermarkets} value={this.state.usersupermarkets} options={this.state.supermarkets} ></Select>
+			
+
+ </label>:''}
 
 </div>
 
