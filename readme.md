@@ -8,7 +8,7 @@
 3.- dento de la carptea donde clonaron el repo abrir consola (cmd) teclear: npm install
  (esto instalara los paquetes que estan en package.json)
 
-4.- ejecutar: npm install webpack@1.12.13 --save
+4.- ejecutar: npm install webpack@1.12.13 --g
 
 5.- Crear base de datos, si quieres nombrarla igual como esta en el archivo de configuracion config.ini "smithconnenandgarcia"
 
