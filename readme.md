@@ -1,7 +1,7 @@
 
 
 
-1.- Instalar nodejs v 8.11.1  https://nodejs.org/es/
+1.- Instalar nodejs v 8.11.1  https://nodejs.org/es/    al instalar todo next, solo cuando les aparesca esta pantalla, seleccionan NPM http://blog.teamtreehouse.com/wp-content/uploads/2015/01/installer.png
 
 2.- Descargar o clonar el repo  (importante guardarlo en carpeta con nombre   smithconnenandgarcia y debes estar en el servidor local (cualquiera que usen de php, mysql,etc))
 
