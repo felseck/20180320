@@ -12,9 +12,9 @@
 
 5.- Crear base de datos, si quieres nombrarla igual como esta en el archivo de configuracion config.ini "smithconnenandgarcia"
 
-7.- Importar la db, esta en el archivo smithconnenandgarcia.sql
+6.- Importar la db, esta en el archivo smithconnenandgarcia.sql
 
-8.- Para correr el proyecto solo  es necesario abrir la url local donde lo guardaron
+7.- Para correr el proyecto solo  es necesario abrir la url local donde lo guardaron
 
 
 Eso seria todo, asi deberia de funcionar siguiendo el orden de la lista.
