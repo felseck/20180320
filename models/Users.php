@@ -220,12 +220,14 @@ public function all() {
 
     public function add() {
         $this->copyFrom('POST');
+        if(isset($this->created)) $this->created = date('Y-m-d H:i:s');
         $this->save();
     }
 
     public function edit($id) {
         $this->load(array('id=?',$id));
         $this->copyFrom('POST');
+        if(isset($this->modified)) $this->modified = date('Y-m-d H:i:s');
         $this->update();
     }
 
