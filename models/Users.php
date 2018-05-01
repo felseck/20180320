@@ -110,6 +110,19 @@ public function usersByExpiredFiles() {
 
 }
 
+
+public function getuserswillexpirefiles() {
+
+ $query = "SELECT usersfiles.id as userfileid, usersfiles.expiredate,users.id AS userid,users.name,users.lastname,users.username,users.companyname, lastemailwillexpirefilesdate
+ FROM usersfiles 
+ LEFT JOIN users ON users.id = usersfiles.userid
+  WHERE users.id IS NOT NULL AND usersfiles.expiredate > CURDATE() AND usersfiles.expiredate != '0000-00-00'  AND (DATEDIFF(usersfiles.expiredate, CURDATE()) = 30 OR DATEDIFF(usersfiles.expiredate, CURDATE()) = 15 OR DATEDIFF(usersfiles.expiredate, CURDATE()) <= 7) GROUP BY users.id";
+
+
+ return $this->db->exec($query);
+
+}
+
 public function allBuyerUsers($queycond_,$id) {
 
     $query = "SELECT users.id,users.name,users.lastname,users.username,users.companyname, users.id AS value, CONCAT(users.name,' - ',users.username) AS label
@@ -139,9 +152,9 @@ public function allsupermarketusers($id){
 
 public function allUsers($queycond_,$adminid) {
 
-    $query = "SELECT users.id,users.haspayments,users.totalpayments,users.name,users.lastname,users.username,users.companyname, users.id AS value, CONCAT(users.name,' - ',users.username) AS label, rejectednum,approvednum,expirednum,notuploadednum,uploadednum,pendingchecknum, users.approved
+    $query = "SELECT users.id,users.haspayments,users.totalpayments,users.name,users.lastname,users.username,users.buyergroupid,users.companyname, users.id AS value, CONCAT(users.name,' - ',users.username) AS label, rejectednum,approvednum,expirednum,notuploadednum,uploadednum,pendingchecknum, users.approved
     FROM users 
-    LEFT JOIN usersbusinesstypes ON usersbusinesstypes.userid = users.id
+    LEFT JOIN usersbusinesstypes ON usersbusinesstypes.userid = users.id    
     WHERE 1 {$queycond_} GROUP BY users.id ORDER BY users.companyname ASC";
 
     if($queycond_ == -1){
@@ -149,9 +162,14 @@ public function allUsers($queycond_,$adminid) {
 
         $query = "SELECT users.id,users.name,users.lastname,users.username,users.companyname, users.id AS value, users.name AS label
         FROM adminsuserscustom
-        LEFT JOIN users ON users.id = adminsuserscustom.userid
+        LEFT JOIN users ON users.id = adminsuserscustom.userid        
         WHERE adminid = {$adminid} ORDER BY users.companyname ASC";
     }
+    return $this->db->exec($query);
+}
+
+public function updatelastuploaddate($id){
+    $query = "UPDATE users SET lastuploaddate = now() WHERE id = {$id}";
     return $this->db->exec($query);
 }
 

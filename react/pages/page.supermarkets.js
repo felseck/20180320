@@ -102,7 +102,7 @@ onBeforeAddRow(row_){
 
 		return (
 			<div className="pt-5 pb-5">
-			<h1 className="text-center">Supermarkets {this.props.params.workers?'Workers':''}</h1>
+			<h1 className="text-center">.. Supermarkets {this.props.params.workers?'Workers':''}</h1>
 
 			<BootstrapTable data={objects} exportCSV={true } insertRow={ true } striped hover  options={options} version='4' selectRow={selectRowProp } pagination>
 

@@ -16,6 +16,7 @@ import conflictform from './pages/page.conflictform'
 import userspayments from './pages/page.userspayments'
 import buyerspayments from './pages/page.buyerspayments'
 import supermarkets from './pages/page.supermarkets'
+import buyersgroups from './pages/page.buyersgroups'
 
 import supermarketusers from './pages/page.supermarketusers'
 
@@ -57,6 +58,7 @@ render((
   <Route path="/admin/supermarkets/:workers" component={supermarkets} />
    <Route path="/supermarkets" component={users} />
   <Route path="/supermarkets/supliers" component={users} />
+  <Route path="/admin/buyersgroups" component={buyersgroups} />
   
   <Route path="/supermarkets/userfiles/:id" component={userfiles} />
   <Route path="/supermarkets/reports/:reporttype" component={users} />

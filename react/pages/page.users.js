@@ -5,13 +5,14 @@ import Ajax_1_1 from '../mixins/mixin.ajax_1_1'
 //import Files from './page.files'
 import Link from '../navs/nav.link'
 import Select from 'react-select'
+
 export default React.createClass({
 	mixins:[Ajax,Ajax_1_1],
 	getInitialState(){
 		return {
 			users:[],
 			render:true,
-			user:{},
+			user:{buyergroupid:null},
 			businesstypes:[],
 			userbusinesstypes:[],
 			bussinestypesselected:[],
@@ -21,7 +22,8 @@ export default React.createClass({
 			activefiltercheck:{},
 			supplierapproved:'',
 			supermarkets:[],
-			usersupermarkets:[]
+			usersupermarkets:[],
+			buyersgroups:[]		
 		}
 	},
 
@@ -34,9 +36,14 @@ export default React.createClass({
 		this.getBusinessTypes();
 		this.getDocumentsTypes();
 
+
 		this.gets({
 			controller:'supermarkets',
 			query:{hasmainsupermarket:0}
+		});
+		
+		this.gets({
+			controller:'buyersgroups',
 		});
 
 	},
@@ -83,7 +90,7 @@ export default React.createClass({
 
       	if(!confirm('Are you sure you want to DISAPPROVE this user?')) return;
 
-      	var data ={id:row.id,approved:0}
+      	var data ={id:row.id,approved:0,approvebutton:-1}
 
         this.saveUser({data:data,callback:function(){
 
@@ -102,7 +109,7 @@ export default React.createClass({
       	if(!confirm('Are you sure you want to approve this user?')) return;
 
       	
-      	var data ={id:row.id,approved:-1}
+      	var data ={id:row.id,approved:-1,approvebutton:-1}
 
 
         this.saveUser({data:data,callback:function(){
@@ -146,6 +153,18 @@ export default React.createClass({
 
 			)
 		},
+
+		selectbuyergroup:function(name, value){
+
+			this.state.user.buyergroupid = value;
+
+			console.log('value',value);
+
+			if(name == 'filter') this.refs.buyergroupid.applyFilter(value || '');
+		    this.forceUpdate();
+       
+		},
+
 
 		selectsupermarkets:function(this_){
 
@@ -334,19 +353,35 @@ this.refs.supplierapproved.cleanFiltered();
             defaultValue: { number: '0', comparator: '<=' } 
             }
 
-            console.log('this.state.supplierapproved',this.state.supplierapproved);
+         
 
 			if(this.state.supplierapproved == '') filter.defaultValue.comparator = '<=';
             else if(this.state.supplierapproved == 0) filter.defaultValue.comparator = '=';
             else if(this.state.supplierapproved == -1) filter.defaultValue.comparator = '<';
         
-           console.log('approveUserCheckfilter',filter)
+        
         
 			return filter;
+		},
 
 
+		buyergroupfilter:function(){   //Convertimos el filtro al formato de 'react-bootstrap-table'
+
+		var selectvalues = {10000000000:''};
+		this.state.buyersgroups.map(function(buyergroup,index){
+			selectvalues[buyergroup.id] = buyergroup.name;
+		});
+
+
+		var selectfilter = { type: 'SelectFilter', options: selectvalues};
+
+		return {values:selectvalues,filter:selectfilter}
 
 		},
+
+		enumFormatter:function(cell, row, enumObject) {
+           return enumObject[cell];
+        },
 
 		render() {
 
@@ -444,6 +479,13 @@ Supplier status
 <option value="-1">Approved</option>
 <option value="0">Not Approved</option>
 </select>
+ </label>:''}
+
+  {ReportType == 'files'?
+  <label className="btn btn-primary" style={{width:'300px'}}>
+Buyers groups
+	<Select placeholder='buyer group'  simpleValue onChange={this.selectbuyergroup.bind(this,'filter')} value={this.state.user.buyergroupid}  options={this.state.buyersgroups} ></Select>
+              	
 
  </label>:''}
   
@@ -472,6 +514,7 @@ Supermarkets
 
 		<TableHeaderColumn width="150" dataField='companyname' filter={ { type: 'TextFilter', delay: 100 }} >Company Name</TableHeaderColumn>
 		
+		<TableHeaderColumn dataField='buyergroupid' width="150" hidden={ReportType == 'files'?false:true} ref="buyergroupid" dataFormat={ this.enumFormatter } filterFormatted  formatExtraData={this.buyergroupfilter().values} filter={this.buyergroupfilter().filter} hiddenOnInsert>Buyer group</TableHeaderColumn>
        
 		<TableHeaderColumn width="150" hidden={ReportType == 'payments' && this.state.activefilter != 'totalpayments_'?false:true} ref="totalpayments" dataField='totalpayments' filter={this.NumberFilter('totalpayments')} hiddenOnInsert>Payments</TableHeaderColumn>
 	
@@ -512,10 +555,14 @@ Supermarkets
 		{global.userid && this.state.user && !ReportType?
 			<div>
 			<hr/>
-			<h2>{this.state.user.name}</h2>
+			<h2>{this.state.user.name}</h2>	
 
+			<br/>
+			<label><b>Buyer Group:</b></label>			
+			<Select placeholder='Buyer Group'  simpleValue  onChange={this.selectbuyergroup.bind(this,'buyergroupid')} value={this.state.user.buyergroupid}  options={this.state.buyersgroups}></Select>
+			<br/>
 
-<br/>
+			<br/>
 			<label><b>Supermarkets:</b></label>
 			<Select placeholder='Supermarkets'  multi onChange={this.selectsupermarkets} value={this.state.usersupermarkets} options={this.state.supermarkets} ></Select>
 			<br/>
@@ -524,6 +571,7 @@ Supermarkets
 			<label><b>Business types:</b></label>
 			<Select placeholder='Business types'  multi onChange={this.selectBusinessTypes} value={this.state.userbusinesstypes} options={this.state.businesstypes} ></Select>
 			<br/>
+			
 
 			{this.state.bussinestypesselected.length >0?
 				<div className="card">

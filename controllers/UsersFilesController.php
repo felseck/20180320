@@ -69,6 +69,11 @@ class UsersFilesController extends Controller{
         $this->f3->set('POST.fileuniqueid',$uniqueid);
         $this->f3->set('POST.fullfilename',$fullfilename);
 
+        $datetime = date('Y-m-d H:i:s');
+
+        $this->f3->set('POST.created',$datetime);
+        $this->f3->set('POST.modified',$datetime);
+
         $userfile = new UsersFiles($this->db);
         $userfile->add();
         
@@ -95,6 +100,8 @@ class UsersFilesController extends Controller{
       $user = [];
       $users = new Users($this->db);
       $user = $users->getById($userid);
+
+      $users->updatelastuploaddate($userid);
 
 
       $this->f3->set('MailSubject', "{$user['name']} has uploaded a new file");

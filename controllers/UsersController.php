@@ -36,6 +36,16 @@ $tojson = ['result'=>true, 'data'=>$usersbysupermarket];
 }
 
 
+function supplierslinks(){
+ $this->getlanguage('home');
+
+ 
+$this->f3->set('content','free/supplierslink.html');
+echo View::instance()->render('free/layout.html'); 
+exit;
+}
+
+
 function documentfillonline(){
  $this->getlanguage('home');
 
@@ -118,12 +128,56 @@ function sendemail(){
  }
 
  $this->usersdocumentsexpireddates();
+ $this->userswillexpirefiles();
 
  $tojson = ['result'=>true, 'expiredfiles'=>count($usersexpiredfiles)];
 
 
  $this->json($tojson);
 }
+
+
+function userswillexpirefiles(){
+  $users = new Users($this->db);
+  $userslist = $users->getuserswillexpirefiles();
+
+
+  foreach ($userslist as $key => $user) {
+
+    $today = date('Y-m-d');
+
+   /* print_r($user);
+   echo '<br>';*/
+
+    if($user['lastemailwillexpirefilesdate'] == $today) continue;
+
+    $userfiles = new UsersFiles($this->db);
+    $userfileslist = $userfiles->getfileswillexpire($user['userid']);
+
+   $subject = "{$user['name']}, these files expire soon";
+
+   $this->f3->set('MailSubject', $subject);
+   $this->f3->set('MailTo', " '{$user['name']}' <{$user['username']}>, 'Bryan' <bryan@smithconnenandgarcia.com>");
+   $this->f3->set('MailTemplate', 'emails/userwillexpirefiles.html');
+   $this->f3->set('user',$user);
+   $this->f3->set('files',$userfileslist);
+
+   
+  /* print_r($userfileslist);
+
+   echo '<br><br>';*/
+
+   $this->f3->set('POST.lastemailwillexpirefilesdate', $today);
+   $users = new Users($this->db);
+   $users->edit($user['userid']);
+
+   $this->sendmail();
+
+ }
+
+
+}
+
 
 function usersdocumentsexpireddates(){
   $users = new Users($this->db);
@@ -421,18 +475,25 @@ $this->tojson();
 
 function saveuser(){ 
 
+  $this->f3->clear('POST.lastuploaddate'); 
+
   if($this->f3->get('POST.password')){
    $hashpassoword = password_hash($this->f3->get('POST.password'), PASSWORD_DEFAULT);
    $this->f3->set('POST.password',$hashpassoword);
- }
+  }
+
+   $approvebutton = $this->f3->get('POST.approvebutton');
 
  $userid = $this->f3->get('POST.id');
  $this->f3->clear('POST.id');
+if($this->f3->get('POST.buyergroupid') == '' && $approvebutton != -1) $this->f3->set('POST.buyergroupid',NULL);
+
 
 
  $userbusinesstypes = $this->f3->get('POST.userbusinesstypes');
  $businesstypes = new UsersBusinessTypes($this->db);
- $businesstypes->deleteByUserId($userid);
+
+ if($approvebutton != -1) $businesstypes->deleteByUserId($userid);
 
  $this->f3->set('POST.userid',$userid);
 
@@ -448,7 +509,7 @@ function saveuser(){
 
  $usersupermarkets = $this->f3->get('POST.usersupermarkets');
  $supermarkets = new userssupermarketsModel($this->db,'userssupermarkets');
- $supermarkets->deleteByUserId($userid);
+ if($approvebutton != -1) $supermarkets->deleteByUserId($userid);
 
    if(count($usersupermarkets) >0) 
   foreach ($usersupermarkets as $key => $usersupermarket) {
@@ -460,7 +521,7 @@ function saveuser(){
 
   $userbusinessdocumentstypes = $this->f3->get('POST.userbusinessdocumentstypes');
   $businessdocumentstypes = new usersbusinessdocumentstypesModel($this->db,'usersbusinessdocumentstypes');
-  $businessdocumentstypes->deleteByUserId($userid);
+  if($approvebutton != -1) $businessdocumentstypes->deleteByUserId($userid);
 
 
   $totalcustomsdocuments = 0;
@@ -500,6 +561,8 @@ function saveuser(){
 
 
   function adduser(){ 
+
+     $this->f3->clear('POST.buyergroupid');
 
    $normalpassword = $this->f3->get('POST.password');
    $hashpassoword = password_hash($normalpassword, PASSWORD_DEFAULT);

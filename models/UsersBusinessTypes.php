@@ -12,7 +12,7 @@ class UsersBusinessTypes extends DB\SQL\Mapper{
     }
 
     public function getByUser($userid, $query_) {
-        $query = "SELECT businesstypesdef.id,businesstypesdef.filename,businesstypesdef.fullfilename, businesstypesdef.name,  users.name AS primarycontact, users.companyname, users.username, businesstypesdef.name_es
+        $query = "SELECT businesstypesdef.id,businesstypesdef.filename,businesstypesdef.fullfilename, businesstypesdef.name,  users.name AS primarycontact, users.companyname, users.username, businesstypesdef.name_es, users.lastuploaddate
         FROM usersbusinesstypes 
         LEFT JOIN businesstypesdef ON businesstypesdef.id = usersbusinesstypes.businesstypeid 
         LEFT JOIN users ON users.id = usersbusinesstypes.userid

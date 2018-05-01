@@ -7,6 +7,8 @@ import PageConflictForm from './page.conflictform'
 import VendorApplication from './page.documentvendorapplication'
 import WNineForms from './page.documentw9form'
 
+import moment from 'moment'
+
 global.userid = false;
 global.businesstypeid = false;
 global.documentvendorapplicationid = false;
@@ -18,8 +20,8 @@ export default React.createClass({
   mixins:[MixinAjax,MixinAjax_1_1],
 
   getInitialState() { //react method
-  	return {  
-  		render:true,
+    return {  
+      render:true,
       businesstypes:[],
       documentstypes:[]
 
@@ -138,6 +140,8 @@ editFilledDocument:function(filleddocument){
       <b>{lang.username}:</b> {this.state.businesstypes[0].username}<br/>
       <b>{lang.name}:</b> {this.state.businesstypes[0].primarycontact}<br/>
       <b>{lang.nameofcompany}:</b> {this.state.businesstypes[0].companyname}
+      <br/><br/><b>Date of the last file uploaded:</b> {moment(this.state.businesstypes[0].lastuploaddate).format('LLL')}
+
       </div>:''
     } 
     </div>

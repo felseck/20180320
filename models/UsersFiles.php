@@ -90,4 +90,14 @@ class UsersFiles extends DB\SQL\Mapper{
         return $this->db->exec($query);
     }
 
+    public function getfileswillexpire($userid) {
+        $query = "SELECT users.name AS primarycontact,usersfiles.filename, documentstypesdef.name AS documenttype, usersfiles.expiredate
+                  FROM usersfiles
+                  LEFT JOIN documentstypesdef ON documentstypesdef.id = usersfiles.documenttypeid
+                  LEFT JOIN users ON users.id = usersfiles.userid
+                  WHERE usersfiles.userid={$userid} AND usersfiles.expiredate > CURDATE() AND usersfiles.expiredate != '0000-00-00'  AND (DATEDIFF(usersfiles.expiredate, CURDATE()) = 30 OR DATEDIFF(usersfiles.expiredate, CURDATE()) = 15 OR DATEDIFF(usersfiles.expiredate, CURDATE()) <= 7) ";
+        return $this->db->exec($query);
+    }
+
+
 }
