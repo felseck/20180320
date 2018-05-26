@@ -6,8 +6,22 @@ class DocumentsTypes extends DB\SQL\Mapper{
         parent::__construct($db,'documentstypesdef');
     }
 
-    public function all($byfile) {
-        if($byfile) $byfile_ = "AND filename != ''";
+    public function all($byfile, $userid_) {
+
+       
+
+        
+
+         if($byfile) {
+            $byfile_ = "AND filename != ''";
+
+            $query = "SELECT supermarketid FROM userssupermarkets WHERE  userid = {$userid_} AND supermarketid = 20";//supermercado Nortgate
+            $spresult = $this->db->exec($query);
+
+            if(count($spresult) == 0) $byfile_ = "AND filename != '' AND id NOT IN (10)"; //Supplier application
+         }
+
+
         $query = "SELECT id, name, description, name_es, description_es, filename, typename, fullfilename, id AS value, name AS label 
         FROM documentstypesdef 
         WHERE 1 {$byfile_} ORDER BY name";

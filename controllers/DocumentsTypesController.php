@@ -52,7 +52,7 @@ class DocumentsTypesController extends Controller{
    // $this->f3->set('POST.userid',$userid);
 
 
-    $documentstypesresult = $documentstypes->all($byfile);
+    $documentstypesresult = $documentstypes->all($byfile,$userid);
 
     if($byfile){
 
